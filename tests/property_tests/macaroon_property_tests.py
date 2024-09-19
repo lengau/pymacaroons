@@ -1,17 +1,17 @@
 from __future__ import unicode_literals
 
 from hypothesis import *
-from hypothesis.specifiers import *
+from hypothesis.strategies import *
 
 from pymacaroons import Macaroon, MACAROON_V1, MACAROON_V2
 from pymacaroons.utils import convert_to_bytes
 
 
-ascii_text_strategy = strategy(
-    [sampled_from(map(chr, range(0, 128)))]
+ascii_text_strategy = text(
+    characters(codec="ascii")
 ).map(lambda c: ''.join(c))
 
-ascii_bin_strategy = strategy(ascii_text_strategy).map(
+ascii_bin_strategy = ascii_text_strategy.map(
     lambda s: convert_to_bytes(s)
 )
 
